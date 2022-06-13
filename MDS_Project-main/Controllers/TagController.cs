@@ -35,7 +35,7 @@ namespace RecipesApp.Controllers
             return Ok(tagsToReturn);
         }
 
-        [HttpGet("{name:string}")]
+        [HttpGet("{name}")]
         public async Task<IActionResult> GetTagByName(string name)
         {
             var tag = await _repository.GetByNameAsync(name);
@@ -76,6 +76,18 @@ namespace RecipesApp.Controllers
 
 
             return Ok(new TagDTO(newTag));
+        }
+
+        [HttpPut("UpdateForForm")]
+        public async Task<IActionResult> UpdateAsync([FromBody] Tag tag)
+        {
+            var array_tag = await _repository.GetAllTags();
+
+            var tagIndex = array_tag.FindIndex((Tag _tag) => _tag.Name.Equals(tag.Name));
+
+            array_tag[tagIndex] = tag;
+
+            return Ok(array_tag);
         }
     }
 }

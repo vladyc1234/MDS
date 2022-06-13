@@ -16,11 +16,16 @@ using RecipesApp.Entities;
 using RecipesApp.Entities.Constants;
 using RecipesApp.Repositories.GenericRepository;
 using RecipesApp.Repositories.RecipeRepositories;
+using RecipesApp.Repositories.UtensilRepositories;
+using RecipesApp.Repositories.IngredientsRepositories;
+using RecipesApp.Repositories.TagRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RecipesApp.Repositories;
+using RecipesApp.Services;
 
 namespace RecipesApp
 {
@@ -50,6 +55,12 @@ namespace RecipesApp
 
             //Repositories stuff
             services.AddScoped<IRecipeRepository, RecipeRepository>();
+            services.AddScoped<IUtensilRepository, UtensilRepository>();
+            services.AddScoped<IIngredientRepository, IngredientsRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddScoped<IUserService, UserService>();
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -57,7 +68,7 @@ namespace RecipesApp
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RecipesApp", Version = "v1" });
             });
 
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer("Data Source=DESKTOP-LCU5F5H;Initial Catalog=RecipesApp;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer("Data Source=DESKTOP-LCU5F5H;Initial Catalog=Recipe;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
             services.AddIdentity<User, Role>()
                   .AddEntityFrameworkStores<AppDbContext>()

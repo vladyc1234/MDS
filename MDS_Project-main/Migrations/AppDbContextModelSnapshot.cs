@@ -133,13 +133,13 @@ namespace RecipesApp.Migrations
 
             modelBuilder.Entity("RecipesApp.Entities.CookedWith", b =>
                 {
-                    b.Property<int>("IdUtensil")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("IdRecipe")
                         .HasColumnType("int");
 
-                    b.HasKey("IdUtensil", "IdRecipe");
+                    b.HasKey("Name", "IdRecipe");
 
                     b.HasIndex("IdRecipe");
 
@@ -165,6 +165,9 @@ namespace RecipesApp.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
                     b.Property<int?>("RecipeId")
                         .HasColumnType("int");
 
@@ -177,13 +180,13 @@ namespace RecipesApp.Migrations
 
             modelBuilder.Entity("RecipesApp.Entities.DerivedTag", b =>
                 {
-                    b.Property<int>("IdTag")
-                        .HasColumnType("int");
+                    b.Property<string>("NameTag")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("IdDerivedRecipe")
                         .HasColumnType("int");
 
-                    b.HasKey("IdTag", "IdDerivedRecipe");
+                    b.HasKey("NameTag", "IdDerivedRecipe");
 
                     b.HasIndex("IdDerivedRecipe");
 
@@ -192,18 +195,13 @@ namespace RecipesApp.Migrations
 
             modelBuilder.Entity("RecipesApp.Entities.Ingredient", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
-                    b.HasKey("Id");
+                    b.HasKey("Name");
 
                     b.ToTable("Ingredients");
                 });
@@ -233,13 +231,13 @@ namespace RecipesApp.Migrations
 
             modelBuilder.Entity("RecipesApp.Entities.MadeWith", b =>
                 {
-                    b.Property<int>("IdIngredient")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("IdRecipe")
                         .HasColumnType("int");
 
-                    b.HasKey("IdIngredient", "IdRecipe");
+                    b.HasKey("Name", "IdRecipe");
 
                     b.HasIndex("IdRecipe");
 
@@ -311,6 +309,9 @@ namespace RecipesApp.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
                     b.Property<string>("RecipeFinal")
                         .HasColumnType("nvarchar(max)");
 
@@ -341,13 +342,13 @@ namespace RecipesApp.Migrations
 
             modelBuilder.Entity("RecipesApp.Entities.RecipeTag", b =>
                 {
-                    b.Property<int>("IdTag")
-                        .HasColumnType("int");
+                    b.Property<string>("NameTag")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("IdRecipe")
                         .HasColumnType("int");
 
-                    b.HasKey("IdTag", "IdRecipe");
+                    b.HasKey("NameTag", "IdRecipe");
 
                     b.HasIndex("IdRecipe");
 
@@ -366,6 +367,9 @@ namespace RecipesApp.Migrations
 
                     b.Property<int>("IdRecipe")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("RecipeId")
                         .HasColumnType("int");
@@ -429,15 +433,10 @@ namespace RecipesApp.Migrations
 
             modelBuilder.Entity("RecipesApp.Entities.Tag", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Name");
 
                     b.ToTable("Tags");
                 });
@@ -548,18 +547,13 @@ namespace RecipesApp.Migrations
 
             modelBuilder.Entity("RecipesApp.Entities.Utensil", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
+                    b.HasKey("Name");
 
                     b.ToTable("Utensils");
                 });
@@ -619,7 +613,7 @@ namespace RecipesApp.Migrations
 
                     b.HasOne("RecipesApp.Entities.Utensil", "Utensil")
                         .WithMany("CookedWiths")
-                        .HasForeignKey("IdUtensil")
+                        .HasForeignKey("Name")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -647,7 +641,7 @@ namespace RecipesApp.Migrations
 
                     b.HasOne("RecipesApp.Entities.Tag", "Tag")
                         .WithMany("DerivedTags")
-                        .HasForeignKey("IdTag")
+                        .HasForeignKey("NameTag")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -667,15 +661,15 @@ namespace RecipesApp.Migrations
 
             modelBuilder.Entity("RecipesApp.Entities.MadeWith", b =>
                 {
-                    b.HasOne("RecipesApp.Entities.Ingredient", "Ingredient")
-                        .WithMany("MadeWiths")
-                        .HasForeignKey("IdIngredient")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("RecipesApp.Entities.Recipe", "Recipe")
                         .WithMany("MadeWiths")
                         .HasForeignKey("IdRecipe")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecipesApp.Entities.Ingredient", "Ingredient")
+                        .WithMany("MadeWiths")
+                        .HasForeignKey("Name")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -740,7 +734,7 @@ namespace RecipesApp.Migrations
 
                     b.HasOne("RecipesApp.Entities.Tag", "Tag")
                         .WithMany("RecipeTags")
-                        .HasForeignKey("IdTag")
+                        .HasForeignKey("NameTag")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

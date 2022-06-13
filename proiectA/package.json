@@ -21,7 +21,9 @@
     "@angular/platform-browser-dynamic": "~13.1.0",
     "@angular/router": "~13.1.0",
     "jquerry": "^0.0.1-security",
+    "path": "^0.12.7",
     "rxjs": "~7.4.0",
+    "stream": "^0.0.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },

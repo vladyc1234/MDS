@@ -29,5 +29,6 @@ namespace RecipesApp.Repositories.GenericRepository
 
         // Save
         Task<bool> SaveAsync();
+
     }
 }

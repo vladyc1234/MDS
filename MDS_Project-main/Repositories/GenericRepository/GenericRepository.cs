@@ -64,5 +64,6 @@ namespace RecipesApp.Repositories.GenericRepository
         {
             _context.Set<TEntity>().Update(entity);
         }
+
     }
 }

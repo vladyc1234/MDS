@@ -1,8 +1,13 @@
 ﻿using RecipesApp.Repositories.CommentRepositories;
+using RecipesApp.Repositories.CookedWithRepositories;
+using RecipesApp.Repositories.DerivedTagRepositories;
 using RecipesApp.Repositories.IngredientsRepositories;
 using RecipesApp.Repositories.LibraryRepositories;
+using RecipesApp.Repositories.MadeWithRepositories;
 using RecipesApp.Repositories.QuestionsRepositories;
+using RecipesApp.Repositories.RecipeLibraryRepositories;
 using RecipesApp.Repositories.RecipeRepositories;
+using RecipesApp.Repositories.RecipeTagRepositories;
 using RecipesApp.Repositories.ReviewsRepositories;
 using RecipesApp.Repositories.SessionTokenRepositories;
 using RecipesApp.Repositories.TagRepositories;
@@ -19,6 +24,11 @@ namespace RecipesApp.Repositories
     {
         IUserRepository User { get; }
         ILibraryRepository Library { get; }
+        IRecipeTagRepository RecipeTag { get; }
+        IDerivedTagRepository DerivedTag { get; }
+        IRecipeLibraryRepository RecipeLibrary { get; }
+        IMadeWithRepository MadeWith { get; }
+        ICookedWithRepository CookedWith { get; }
 
         IQuestionRepository Question { get; }
         IReviewRepository Review{ get; }

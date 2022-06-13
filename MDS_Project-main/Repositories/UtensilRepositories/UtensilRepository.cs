@@ -14,14 +14,20 @@ namespace RecipesApp.Repositories.UtensilRepositories
         public UtensilRepository(AppDbContext context) : base(context) { }
 
 
-        public async Task<IEnumerable<Utensil>> GetAllUtensilsAsync()
+        public async Task<List<Utensil>> GetAllUtensils()
         {
-            return await _context.Utensils.ToArrayAsync();
+            return await _context.Utensils.ToListAsync();
         }
 
         public async Task<List<Utensil>> GetAllByName(string name)
         {
             return await _context.Utensils.Where(a => a.Name == name).ToListAsync(); ;
+
+        }
+
+        public async Task<Utensil> GetUtensilByName(string name)
+        {
+            return await _context.Utensils.Where(a => a.Name.Equals(name)).FirstOrDefaultAsync();
         }
     }
 }

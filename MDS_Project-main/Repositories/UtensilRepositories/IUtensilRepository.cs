@@ -9,7 +9,8 @@ namespace RecipesApp.Repositories.UtensilRepositories
 {
     public interface IUtensilRepository : IGenericRepository<Utensil>
     {
-        Task<IEnumerable<Utensil>> GetAllUtensilsAsync();
+        Task<List<Utensil>> GetAllUtensils();
         Task<List<Utensil>> GetAllByName(string name);
+        Task<Utensil> GetUtensilByName(string name);
     }
 }

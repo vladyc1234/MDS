@@ -9,7 +9,7 @@ namespace RecipesApp.Repositories.IngredientsRepositories
 {
     public interface IIngredientRepository : IGenericRepository<Ingredient>
     {
-        Task<IEnumerable<Ingredient>> GetAllIngredientsAsync();
+        Task<List<Ingredient>> GetAllIngredients();
         Task<List<Ingredient>> GetAllByName(string name);
 
 

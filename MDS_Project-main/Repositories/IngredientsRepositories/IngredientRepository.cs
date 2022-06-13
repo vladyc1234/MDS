@@ -13,10 +13,9 @@ namespace RecipesApp.Repositories.IngredientsRepositories
     {
         public IngredientsRepository(AppDbContext context) : base(context) { }
 
-
-        public async Task<IEnumerable<Ingredient>> GetAllIngredientsAsync()
+        public async Task<List<Ingredient>> GetAllIngredients()
         {
-            return await _context.Ingredients.ToArrayAsync();
+            return await _context.Ingredients.ToListAsync();
         }
 
         public async Task<List<Ingredient>> GetAllByName(string name)

@@ -25,11 +25,11 @@ namespace RecipesApp.Controllers
         {
             var comments = await _repository.GetAllComments();
 
-            var commentsToReturn = new List<CommentDTO>();
+            var commentsToReturn = new List<DerivedReceipeDTO>();
 
             foreach (var comment in comments)
             {
-                commentsToReturn.Add(new CommentDTO(comment));
+                commentsToReturn.Add(new DerivedReceipeDTO(comment));
             }
 
             return Ok(commentsToReturn);
@@ -40,7 +40,7 @@ namespace RecipesApp.Controllers
         {
             var comment = await _repository.GetCommentById(id);
 
-            CommentDTO commentToReturn = new CommentDTO(comment);
+            DerivedReceipeDTO commentToReturn = new DerivedReceipeDTO(comment);
 
             return Ok(commentToReturn);
         }
@@ -74,7 +74,19 @@ namespace RecipesApp.Controllers
             await _repository.SaveAsync();
 
 
-            return Ok(new CommentDTO(newComment));
+            return Ok(new DerivedReceipeDTO(newComment));
+        }
+
+        [HttpPut("UpdateForForm")]
+        public async Task<IActionResult> UpdateAsync([FromBody] Comment comment)
+        {
+            var array_comm = await _repository.GetAllComments();
+
+            var commIndex = array_comm.FindIndex((Comment _comm) => _comm.Id.Equals(comment.Id));
+
+            array_comm[commIndex] = comment;
+
+            return Ok(array_comm);
         }
     }
 }

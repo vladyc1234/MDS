@@ -23,6 +23,7 @@ namespace RecipesApp.Entities
         public virtual ICollection<CookedWith> CookedWiths { get; set; }
         public virtual ICollection<RecipeTag> RecipeTags { get; set; }
         public virtual ICollection<RecipeLibrary> RecipeLibraries { get; set; }
+       
 
     }
 }

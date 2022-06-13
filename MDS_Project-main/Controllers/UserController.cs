@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RecipesApp.Entities;
+using RecipesApp.Entities.CreateDTO;
+using RecipesApp.Entities.DTOs;
 using RecipesApp.Repositories;
+using RecipesApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,21 +17,22 @@ namespace RecipesApp.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-     
-            private readonly IRepositoryWrapper _repository;
 
-            public UserController(IRepositoryWrapper repository)
-            {
-                _repository = repository;
-            }
+        private readonly IRepositoryWrapper _repository;
+        private readonly IUserService _service;
 
-            [HttpGet]
-            [Authorize(Roles = "Admin")]
-            public async Task<IActionResult> GetAllUsers()
-            {
-                var users = await _repository.User.GetAllUsers();
+        public UserController(IRepositoryWrapper repository, IUserService service)
+        {
+            _repository = repository;
+            _service = service;
+        }
 
-                return Ok(new { users });
-            }
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _repository.User.GetAllUsers();
+
+            return Ok(new { users });
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace RecipesApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllUtensils()
         {
-            var utensils = await _repository.GetAllUtensilsAsync();
+            var utensils = await _repository.GetAllUtensils();
 
             var utensilsToReturn = new List<UtensilDTO>();
 
@@ -35,10 +35,10 @@ namespace RecipesApp.Controllers
             return Ok(utensilsToReturn);
         }
 
-        [HttpGet("{name:string}")]
+        [HttpGet("{name}")]
         public async Task<IActionResult> GetUtensilByName(string name)
         {
-            var utensil = await _repository.GetByNameAsync(name);
+            var utensil = await _repository.GetUtensilByName(name);
 
             UtensilDTO utensilToReturn = new UtensilDTO(utensil);
 
@@ -46,7 +46,7 @@ namespace RecipesApp.Controllers
         }
 
 
-            [HttpDelete("{name}")]
+        [HttpDelete("{name}")]
         public async Task<IActionResult> DeleteUtensilType(string name)
         {
             var Utensil = await _repository.GetByNameAsync(name);
@@ -70,6 +70,7 @@ namespace RecipesApp.Controllers
             Utensil newUtensil = new Utensil();
 
             newUtensil.Name = dto.Name;
+            newUtensil.Description = dto.Description;
 
             _repository.Create(newUtensil);
 
@@ -77,6 +78,18 @@ namespace RecipesApp.Controllers
 
 
             return Ok(new UtensilDTO(newUtensil));
+        }
+
+        [HttpPut("UpdateForForm")]
+        public async Task<IActionResult> UpdateAsync([FromBody] Utensil utensil)
+        {
+            var array_utensil = await _repository.GetAllUtensils();
+
+            var utensilIndex = array_utensil.FindIndex((Utensil _ut) => _ut.Name.Equals(utensil.Name));
+
+            array_utensil[utensilIndex] = utensil;
+
+            return Ok(array_utensil);
         }
     }
 }

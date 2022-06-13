@@ -35,7 +35,7 @@ namespace RecipesApp.Controllers
             return Ok(librarysToReturn);
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetLibraryById(int id)
         {
             var Library = await _repository.GetLibraryById(id);

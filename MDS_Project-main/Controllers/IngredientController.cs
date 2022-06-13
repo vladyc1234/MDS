@@ -23,7 +23,7 @@ namespace RecipesApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllIngredients()
         {
-            var ingredients = await _repository.GetAllIngredientsAsync();
+            var ingredients = await _repository.GetAllIngredients();
 
             var ingredientsToReturn = new List<IngredientDTO>();
 
@@ -35,7 +35,7 @@ namespace RecipesApp.Controllers
             return Ok(ingredientsToReturn);
         }
 
-        [HttpGet("{name:string}")]
+        [HttpGet("{name}")]
         public async Task<IActionResult> GetIngredientByName(string name)
         {
             var ingredient = await _repository.GetByNameAsync(name);
@@ -77,6 +77,18 @@ namespace RecipesApp.Controllers
 
 
             return Ok(new IngredientDTO(newIngredient));
+        }
+
+        [HttpPut("UpdateForForm")]
+        public async Task<IActionResult> UpdateAsync([FromBody] Ingredient ingredient)
+        {
+            var array_ingredient = await _repository.GetAllIngredients();
+
+            var ingredientIndex = array_ingredient.FindIndex((Ingredient _ingr) => _ingr.Name.Equals(ingredient.Name));
+
+            array_ingredient[ingredientIndex] = ingredient;
+
+            return Ok(array_ingredient);
         }
     }
 }

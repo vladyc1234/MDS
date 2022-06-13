@@ -35,7 +35,7 @@ namespace RecipesApp.Controllers
             return Ok(reviewsToReturn);
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetReviewById(int id)
         {
             var review = await _repository.GetReviewById(id);
@@ -67,6 +67,8 @@ namespace RecipesApp.Controllers
         public async Task<IActionResult> CreateReview(CreateReviewDTO dto)
         {
             Review newReview = new Review();
+
+            newReview.Text = dto.Text;
 
             _repository.Create(newReview);
 

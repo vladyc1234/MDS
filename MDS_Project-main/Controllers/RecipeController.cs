@@ -83,6 +83,7 @@ namespace RecipesApp.Controllers
             Recipe newRecipe = new Recipe();
 
             newRecipe.Name = dto.Name;
+            newRecipe.RecipeFinal = dto.RecipeFinal;
 
             _repository.Create(newRecipe);
 
@@ -90,6 +91,18 @@ namespace RecipesApp.Controllers
 
 
             return Ok(new RecipeDTO(newRecipe));
+        }
+
+        [HttpPut("UpdateForForm")]
+        public async Task<IActionResult> UpdateAsync([FromBody] Recipe recipe)
+        {
+            var array_recipe = await _repository.GetAllRecipes();
+
+            var recipeIndex = array_recipe.FindIndex((Recipe _recipe) => _recipe.Id.Equals(recipe.Id));
+
+            array_recipe[recipeIndex] = recipe;
+
+            return Ok(array_recipe);
         }
     }
 }

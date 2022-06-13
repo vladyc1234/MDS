@@ -7,5 +7,8 @@ namespace RecipesApp.Entities.CreateDTO
 {
     public class CreateCommentDTO
     {
+        public DateTime CreationDate { get; set; }
+        public string Text { get; set; }
+        public int IdRecipe { get; set; }
     }
 }

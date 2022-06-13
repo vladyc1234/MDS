@@ -1,10 +1,15 @@
 ﻿using RecipesApp.Data;
 using RecipesApp.Repositories.CommentRepositories;
+using RecipesApp.Repositories.CookedWithRepositories;
+using RecipesApp.Repositories.DerivedTagRepositories;
 using RecipesApp.Repositories.IngredientsRepositories;
 using RecipesApp.Repositories.LibraryRepositories;
+using RecipesApp.Repositories.MadeWithRepositories;
 using RecipesApp.Repositories.PullRecipeRepositories;
 using RecipesApp.Repositories.QuestionsRepositories;
+using RecipesApp.Repositories.RecipeLibraryRepositories;
 using RecipesApp.Repositories.RecipeRepositories;
+using RecipesApp.Repositories.RecipeTagRepositories;
 using RecipesApp.Repositories.ReviewsRepositories;
 using RecipesApp.Repositories.SessionTokenRepositories;
 using RecipesApp.Repositories.TagRepositories;
@@ -32,6 +37,11 @@ namespace RecipesApp.Repositories
         private IRecipeRepository _recipe;
         private IIngredientRepository _ingredient;
         private ISessionTokenRepository _sessionToken;
+        private IRecipeTagRepository _recipeTag;
+        private IDerivedTagRepository _derivedTag;
+        private IRecipeLibraryRepository _recipeLibrary;
+        private IMadeWithRepository _madeWith;
+        private ICookedWithRepository _cookedWith;
 
 
         public RepositoryWrapper(AppDbContext context)
@@ -39,6 +49,48 @@ namespace RecipesApp.Repositories
             _context = context;
         }
 
+        public IRecipeTagRepository RecipeTag 
+        {
+            get
+            {
+                if (_recipeTag == null) _recipeTag = new RecipeTagRepository(_context);
+                return _recipeTag;
+            }
+        }
+        public IDerivedTagRepository DerivedTag
+        {
+            get
+            {
+                if (_derivedTag == null) _derivedTag = new DerivedTagRepository(_context);
+                return _derivedTag;
+            }
+        }
+
+        public IRecipeLibraryRepository RecipeLibrary
+        {
+            get
+            {
+                if (_recipeLibrary == null) _recipeLibrary = new RecipeLibraryRepository(_context);
+                return _recipeLibrary;
+            }
+        }
+        public ICookedWithRepository CookedWith 
+        {
+            get
+            {
+                if (_cookedWith == null) _cookedWith = new CookedWithRepository(_context);
+                return _cookedWith;
+            }
+        }
+
+        public IMadeWithRepository MadeWith
+        {
+            get
+            {
+                if (_madeWith == null) _madeWith = new MadeWithRepository(_context);
+                return _madeWith;
+            }
+        }
         public IUserRepository User
         {
             get

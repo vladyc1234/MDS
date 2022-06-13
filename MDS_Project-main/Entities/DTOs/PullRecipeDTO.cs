@@ -10,14 +10,12 @@ namespace RecipesApp.Entities.DTOs
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
         public int IdRecipe { get; set; }
-        public Recipe Recipe { get; set; }
     
         public PullRecipeDTO(PullRecipe pullrecipe)
         {
             this.Id = pullrecipe.Id;
             this.CreationDate = pullrecipe.CreationDate;
             this.IdRecipe = pullrecipe.IdRecipe;
-            this.Recipe = pullrecipe.Recipe;
         }
     }
 }

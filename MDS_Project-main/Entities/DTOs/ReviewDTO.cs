@@ -11,7 +11,6 @@ namespace RecipesApp.Entities.DTOs
         public DateTime CreationDate { get; set; }
         public string Text { get; set; }
         public int IdRecipe { get; set; }
-        public Recipe Recipe { get; set; }
 
         public ReviewDTO(Review review)
         {
@@ -19,7 +18,6 @@ namespace RecipesApp.Entities.DTOs
             this.CreationDate = review.CreationDate;
             this.Text = review.Text;
             this.IdRecipe = review.IdRecipe;
-            this.Recipe = review.Recipe;
         }
     }
 }

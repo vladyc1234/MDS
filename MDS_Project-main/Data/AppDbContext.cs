@@ -17,6 +17,7 @@ namespace RecipesApp.Data
 
         public DbSet<Comment> Comments { get; set; }
         public DbSet<CookedWith> CookedWiths { get; set; }
+        public DbSet<DerivedRecipe> DerivedRecipes { get; set; }
         public DbSet<DerivedTag> DerivedTags { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Library> Libraries { get; set; }
@@ -70,12 +71,12 @@ namespace RecipesApp.Data
             modelBuilder.Entity<MadeWith>()
                 .HasOne(rf => rf.Ingredient)
                 .WithMany(f => f.MadeWiths)
-                .HasForeignKey(rf => rf.IdIngredient);
+                .HasForeignKey(rf => rf.Name);
 
 
 
             // CookedWith
-            modelBuilder.Entity<CookedWith>().HasKey(x => new { x.IdUtensil, x.IdRecipe });
+            modelBuilder.Entity<CookedWith>().HasKey(x => new { x.Name, x.IdRecipe });
 
             modelBuilder.Entity<CookedWith>()
                 .HasOne(rf => rf.Recipe)
@@ -85,11 +86,11 @@ namespace RecipesApp.Data
             modelBuilder.Entity<CookedWith>()
                 .HasOne(rf => rf.Utensil)
                 .WithMany(f => f.CookedWiths)
-                .HasForeignKey(rf => rf.IdUtensil);
+                .HasForeignKey(rf => rf.Name);
 
 
             // RecipeTag
-            modelBuilder.Entity<RecipeTag>().HasKey(x => new { x.IdTag, x.IdRecipe });
+            modelBuilder.Entity<RecipeTag>().HasKey(x => new { x.NameTag, x.IdRecipe });
 
             modelBuilder.Entity<RecipeTag>()
                 .HasOne(rf => rf.Recipe)
@@ -99,11 +100,11 @@ namespace RecipesApp.Data
             modelBuilder.Entity<RecipeTag>()
                 .HasOne(rf => rf.Tag)
                 .WithMany(f => f.RecipeTags)
-                .HasForeignKey(rf => rf.IdTag);
+                .HasForeignKey(rf => rf.NameTag);
 
 
             // DerivedTag
-            modelBuilder.Entity<DerivedTag>().HasKey(x => new { x.IdTag, x.IdDerivedRecipe });
+            modelBuilder.Entity<DerivedTag>().HasKey(x => new { x.NameTag, x.IdDerivedRecipe });
 
             modelBuilder.Entity<DerivedTag>()
                 .HasOne(rf => rf.DerivedRecipe)
@@ -113,7 +114,7 @@ namespace RecipesApp.Data
             modelBuilder.Entity<DerivedTag>()
                 .HasOne(rf => rf.Tag)
                 .WithMany(f => f.DerivedTags)
-                .HasForeignKey(rf => rf.IdTag);
+                .HasForeignKey(rf => rf.NameTag);
 
 
             // RecipeLibrary

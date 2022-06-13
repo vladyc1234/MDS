@@ -7,13 +7,13 @@ import { BehaviorSubject } from 'rxjs';
 export class DataService {
 
   private userSource = new BehaviorSubject({
-    username: '',
+    email: '',
     password: '',
   });
 
   public currentUser = this.userSource.asObservable();
 
-  public changeUserData(user: { username: string; password: string; }): void {
+  public changeUserData(user: { email: string; password: string; }): void {
     this.userSource.next(user);
   }
 

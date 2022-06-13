@@ -33,8 +33,9 @@ namespace RecipesApp.Services
             var registerUser = new User();
 
             registerUser.Email = dto.Email;
-            registerUser.Username = dto.Username;
+            registerUser.UserName = dto.UserName;
             registerUser.Name = dto.Name;
+            registerUser.Password = dto.Password;
          
 
 
@@ -52,9 +53,9 @@ namespace RecipesApp.Services
 
         public async Task<string> LoginUser(LoginUserDTO dto)
         {
-            User user = await _userManager.FindByEmailAsync(dto.Username);
+            User user = await _userManager.FindByEmailAsync(dto.Email);
 
-            if (user != null)
+            if (user != null && user.Password.Equals(dto.Password))
             {
                 user = await _repository.User.GetByIdWithRoles(user.Id);
 
