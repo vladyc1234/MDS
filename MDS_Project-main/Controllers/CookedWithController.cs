@@ -34,6 +34,23 @@ namespace RecipesApp.Controllers
 
             return Ok(CookedWithsToReturn);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAllCookedWithsById(int id)
+        {
+            var CookedWiths = await _repository.GetAllCookedWith();
+
+            var CookedWithsToReturn = new List<CookedWithDTO>();
+
+            foreach (var cookedWith in CookedWiths)
+            {
+                if(cookedWith.IdRecipe == id)
+                    CookedWithsToReturn.Add(new CookedWithDTO(cookedWith));
+            }
+
+            return Ok(CookedWithsToReturn);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCookedWithType(int id)
         {
@@ -56,6 +73,9 @@ namespace RecipesApp.Controllers
         public async Task<IActionResult> CreateCookedWith(CreateCookedWithDTO dto)
         {
             CookedWith newCookedWith = new CookedWith();
+
+            newCookedWith.Name = dto.Name;
+            newCookedWith.IdRecipe = dto.IdRecipe;
 
             _repository.Create(newCookedWith);
 

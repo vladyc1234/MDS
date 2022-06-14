@@ -26,6 +26,9 @@ using System.Text;
 using System.Threading.Tasks;
 using RecipesApp.Repositories;
 using RecipesApp.Services;
+using RecipesApp.Repositories.CookedWithRepositories;
+using RecipesApp.Repositories.MadeWithRepositories;
+using RecipesApp.Repositories.RecipeTagRepositories;
 
 namespace RecipesApp
 {
@@ -60,6 +63,9 @@ namespace RecipesApp
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICookedWithRepository, CookedWithRepository>();
+            services.AddScoped<IMadeWithRepository, MadeWithRepository>();
+            services.AddScoped<IRecipeTagRepository, RecipeTagRepository>();
 
 
             services.AddControllers();

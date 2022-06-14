@@ -34,6 +34,22 @@ namespace RecipesApp.Controllers
 
             return Ok(MadeWithsToReturn);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAllMadeWithsById(int id)
+        {
+            var MadeWiths = await _repository.GetAllMadeWith();
+
+            var MadeWithsToReturn = new List<MadeWithDTO>();
+
+            foreach (var madeWiths in MadeWiths)
+            {
+                if (madeWiths.IdRecipe == id)
+                    MadeWithsToReturn.Add(new MadeWithDTO(madeWiths));
+            }
+
+            return Ok(MadeWithsToReturn);
+        }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMadeWithType(int id)
         {
@@ -57,6 +73,8 @@ namespace RecipesApp.Controllers
         {
             MadeWith newMadeWith = new MadeWith();
 
+            newMadeWith.Name = dto.Name;
+            newMadeWith.IdRecipe = dto.IdRecipe;
 
             _repository.Create(newMadeWith);
 

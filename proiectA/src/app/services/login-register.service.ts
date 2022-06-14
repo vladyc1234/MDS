@@ -10,10 +10,19 @@ export class LoginRegisterService {
 
   public url_login = 'https://localhost:44356/api/Account/login'
   public url_register = 'https://localhost:44356/api/Account/register';
+  public url_find_email = 'https://localhost:44356/api/Account'
 
   constructor(
     public http: HttpClient,
   ) { }
+
+  //GET FUNCTIONS
+
+  public GetAcountByEmail(email:string): Observable<any> {
+    
+    return this.http.get(`${this.url_find_email}/${email}`);
+    
+  }
 
   //POST FUNCTIONS
 

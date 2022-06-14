@@ -34,5 +34,15 @@ namespace RecipesApp.Controllers
 
             return Ok(new { users });
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var User = await _repository.User.GetByIdAsync(id);
+
+            return Ok(new { User } );
+        }
+
+
     }
 }

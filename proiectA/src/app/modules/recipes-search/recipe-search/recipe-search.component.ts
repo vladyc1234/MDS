@@ -4,6 +4,8 @@ import { RecipesSearchService } from 'src/app/services/recipes-search.service';
 import { AbstractControl, AbstractFormGroupDirective, FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { subscribeOn } from 'rxjs';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 @Component({
   selector: 'app-recipe-search',
   templateUrl: './recipe-search.component.html',
@@ -12,7 +14,7 @@ import { MatPaginator } from '@angular/material/paginator';
 
 export class RecipeSearchComponent implements OnInit {
 
-  public displayedColumns_recipe = ['name', 'recipeFinal', 'creationDate', 'idUser'];
+  public displayedColumns_recipe = ['name','Tags','byUser'];
   public id = localStorage.getItem('link_id')||'1'
   
 
@@ -22,6 +24,7 @@ export class RecipeSearchComponent implements OnInit {
   ) { }
 
   dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+  dataSourceC = new MatTableDataSource<Element>(ELEMENT_DATA);
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -36,25 +39,285 @@ export class RecipeSearchComponent implements OnInit {
   ngOnInit() {
     this.recipeService.GetAllRecipes().subscribe(
       (result) => {
-        this.dataSource.data = result;
+        for(let i = 0; i<result.length; i++)
+        {
+          this.dataSourceC.data[i] = { name: 'null', Tags: [], byUser: 'unkown' };;
+          this.dataSourceC.data[i].name = result[i].name;
+
+
+            this.recipeService.GetAllRecipeTagsById(`${result[i].id}`).subscribe(
+              (result2) => {
+                for(let j = 0; j<result2.length && j<3; j++)
+                {
+                  this.dataSourceC.data[i].Tags.push(result2[j].nameTag);
+                  
+                }
+              }
+            )
+          
+            this.recipeService.GetUserById(`${result[i].idUser}`).subscribe(
+              (result3) => {
+                  this.dataSourceC.data[i].byUser = result3.user.userName;
+              }
+            )
+          
+        }      
+        this.dataSource = this.dataSourceC; 
       },
       (error) => {
         console.error(error);
       }
     );
+    
   }
-
+  
   public search(): void{
+    this.dataSourceC.data = []
     console.log(this.searchForm.value.recipe_name);
     this.recipeService.GetAllRecipesByName(this.searchForm.value.recipe_name).subscribe(
       (result) => {
-        this.dataSource.data = result;
+        console.log(result)
+        for(let i = 0; i<result.length; i++)
+        {
+          this.dataSourceC.data[i] = { name: 'null', Tags: [], byUser: 'unkown' };;
+          this.dataSourceC.data[i].name = result[i].name;
+          console.log(this.dataSourceC.data)
+
+
+            this.recipeService.GetAllRecipeTagsById(`${result[i].id}`).subscribe(
+              (result2) => {
+                for(let j = 0; j<result2.length && j<3; j++)
+                {
+                  this.dataSourceC.data[i].Tags.push(result2[j].nameTag);
+                  
+                }
+              }
+            )
+          
+            this.recipeService.GetUserById(`${result[i].idUser}`).subscribe(
+              (result3) => {
+                  this.dataSourceC.data[i].byUser = result3.user.userName;
+              }
+            )
+          
+        }      
+        this.dataSource.data = this.dataSourceC.data; 
+        console.log(this.dataSourceC.data)
       },
       (error) => {
         console.error(error);
       }
     );
 
+  }
+
+  //Filter Dificulty
+
+  public checkBoxDiff(cb: MatCheckboxChange): void{ 
+    if(cb.checked){
+        for(let i=0; i<this.dataSource.data.length; i++){
+          if(this.dataSource.data[i].Tags.length>0)
+          {
+            var ok=0
+            for(let j = 0; j<this.dataSource.data[i].Tags.length; j++){
+              if(this.dataSource.data[i].Tags[j] == "easy" || this.dataSource.data[i].Tags[j] == "medium" || this.dataSource.data[i].Tags[j] == "hard")
+                ok = 1
+            }
+            if(ok == 0)
+            {
+              this.dataSource.data.splice(i,1);
+              i--;
+            }
+            
+            
+          }
+          else
+          {
+            this.dataSource.data.splice(i,1);
+            i--;
+          }
+            
+        }
+        this.dataSource.data = this.dataSource.data;
+    }
+    else
+    {
+      this.dataSourceC.data = []
+      this.recipeService.GetAllRecipes().subscribe(
+        (result) => {
+          for(let i = 0; i<result.length; i++)
+          {
+            this.dataSourceC.data[i] = { name: 'null', Tags: [], byUser: 'unkown' };;
+            this.dataSourceC.data[i].name = result[i].name;
+  
+  
+              this.recipeService.GetAllRecipeTagsById(`${result[i].id}`).subscribe(
+                (result2) => {
+                  for(let j = 0; j<result2.length && j<3; j++)
+                  {
+                    this.dataSourceC.data[i].Tags.push(result2[j].nameTag);
+                    
+                  }
+                }
+              )
+            
+              this.recipeService.GetUserById(`${result[i].idUser}`).subscribe(
+                (result3) => {
+                    this.dataSourceC.data[i].byUser = result3.user.userName;
+                }
+              )
+            
+          }      
+          console.log(this.dataSourceC.data);
+          this.dataSource.data = this.dataSourceC.data; 
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
+    
+      
+  }
+
+
+  // Filter time
+
+  public checkBoxTime(cb: MatCheckboxChange): void{ 
+    if(cb.checked){
+        for(let i=0; i<this.dataSource.data.length; i++){
+          if(this.dataSource.data[i].Tags.length>0)
+          {
+            var ok=0
+            for(let j = 0; j<this.dataSource.data[i].Tags.length; j++){
+              if(this.dataSource.data[i].Tags[j] == "short-time" || this.dataSource.data[i].Tags[j] == "average-time" || this.dataSource.data[i].Tags[j] == "long-time")
+                ok = 1
+            }
+            if(ok == 0)
+            {
+              this.dataSource.data.splice(i,1);
+              i--;
+            }
+            
+            
+          }
+          else
+          {
+            this.dataSource.data.splice(i,1);
+            i--;
+          }
+            
+        }
+        this.dataSource.data = this.dataSource.data;
+    }
+    else
+    {
+      this.dataSourceC.data = []
+      this.recipeService.GetAllRecipes().subscribe(
+        (result) => {
+          for(let i = 0; i<result.length; i++)
+          {
+            this.dataSourceC.data[i] = { name: 'null', Tags: [], byUser: 'unkown' };;
+            this.dataSourceC.data[i].name = result[i].name;
+  
+  
+              this.recipeService.GetAllRecipeTagsById(`${result[i].id}`).subscribe(
+                (result2) => {
+                  for(let j = 0; j<result2.length && j<3; j++)
+                  {
+                    this.dataSourceC.data[i].Tags.push(result2[j].nameTag);
+                    
+                  }
+                }
+              )
+            
+              this.recipeService.GetUserById(`${result[i].idUser}`).subscribe(
+                (result3) => {
+                    this.dataSourceC.data[i].byUser = result3.user.userName;
+                }
+              )
+            
+          }      
+          console.log(this.dataSourceC.data);
+          this.dataSource.data = this.dataSourceC.data; 
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
+    
+      
+  }
+
+
+  //Filter Price
+
+  public checkBoxCost(cb: MatCheckboxChange): void{ 
+    if(cb.checked){
+        for(let i=0; i<this.dataSource.data.length; i++){
+          if(this.dataSource.data[i].Tags.length>0)
+          {
+            var ok=0
+            for(let j = 0; j<this.dataSource.data[i].Tags.length; j++){
+              if(this.dataSource.data[i].Tags[j] == "cheap" || this.dataSource.data[i].Tags[j] == "moderate" || this.dataSource.data[i].Tags[j] == "expensive")
+                ok = 1
+            }
+            if(ok == 0)
+            {
+              this.dataSource.data.splice(i,1);
+              i--;
+            }
+            
+            
+          }
+          else
+          {
+            this.dataSource.data.splice(i,1);
+            i--;
+          }
+            
+        }
+        this.dataSource.data = this.dataSource.data;
+    }
+    else
+    {
+      this.dataSourceC.data = []
+      this.recipeService.GetAllRecipes().subscribe(
+        (result) => {
+          for(let i = 0; i<result.length; i++)
+          {
+            this.dataSourceC.data[i] = { name: 'null', Tags: [], byUser: 'unkown' };;
+            this.dataSourceC.data[i].name = result[i].name;
+  
+  
+              this.recipeService.GetAllRecipeTagsById(`${result[i].id}`).subscribe(
+                (result2) => {
+                  for(let j = 0; j<result2.length && j<3; j++)
+                  {
+                    this.dataSourceC.data[i].Tags.push(result2[j].nameTag);
+                    
+                  }
+                }
+              )
+            
+              this.recipeService.GetUserById(`${result[i].idUser}`).subscribe(
+                (result3) => {
+                    this.dataSourceC.data[i].byUser = result3.user.userName;
+                }
+              )
+            
+          }      
+          console.log(this.dataSourceC.data);
+          this.dataSource.data = this.dataSourceC.data; 
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
+    
+      
   }
 
   public searchForm: FormGroup = new FormGroup({
@@ -73,13 +336,19 @@ export class RecipeSearchComponent implements OnInit {
     localStorage.setItem('link_id',id);
   }
 
+  public del(): void{
+    localStorage.removeItem('idRecipe');
+  }
+
 }
+
+
 
 export interface Element {
   name: string;
-  recipeFinal: string;
-  creationDate: number;
-  idUser: number;
+  Tags: string[];
+  byUser: string;
+
 }
 
 const ELEMENT_DATA: Element[] = [];

@@ -108,7 +108,9 @@
                         </mat-label>
                         <input matInput placeholder="Ingredient Price" formControlName="ingredient_price" />
                     </mat-form-field>
-                    
+                    <button mat-raised-button (click)="addIngredient()">
+                        Add Ingredient
+                    </button>
                 </form>
             </div>
             <div class="Recipes-List">
@@ -183,7 +185,7 @@
             <button  mat-raised-button routerLink="/recipe-create2">
                 Prev
             </button>
-            <button  style="margin-left:15px;" mat-raised-button routerLink="/recipe-create4">
+            <button  style="margin-left:15px;" mat-raised-button routerLink="/recipe-create4" (click)="createTables()">
                 Next
             </button>
         </div>

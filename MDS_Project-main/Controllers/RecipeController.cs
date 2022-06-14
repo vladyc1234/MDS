@@ -84,6 +84,9 @@ namespace RecipesApp.Controllers
 
             newRecipe.Name = dto.Name;
             newRecipe.RecipeFinal = dto.RecipeFinal;
+            newRecipe.CreationDate = dto.CreationDate;
+            newRecipe.IdUser = dto.IdUser;
+            newRecipe.Rating = dto.Rating;
 
             _repository.Create(newRecipe);
 

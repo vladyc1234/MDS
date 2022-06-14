@@ -34,6 +34,23 @@ namespace RecipesApp.Controllers
 
             return Ok(RecipeTagsToReturn);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAllRecipeTagsById(int id)
+        {
+            var RecipeTags = await _repository.GetAllRecipeTag();
+
+            var RecipeTagsToReturn = new List<RecipeTagDTO>();
+
+            foreach (var recipeTags in RecipeTags)
+            {
+                if (recipeTags.IdRecipe == id)
+                    RecipeTagsToReturn.Add(new RecipeTagDTO(recipeTags));
+            }
+
+            return Ok(RecipeTagsToReturn);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecipeTagType(int id)
         {
@@ -57,6 +74,8 @@ namespace RecipesApp.Controllers
         {
             RecipeTag newRecipeTag = new();
 
+            newRecipeTag.NameTag = dto.NameTag;
+            newRecipeTag.IdRecipe = dto.IdRecipe;
 
             _repository.Create(newRecipeTag);
 

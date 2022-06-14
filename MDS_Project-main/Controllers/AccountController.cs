@@ -27,6 +27,14 @@ namespace RecipesApp.Controllers
             _userManager = userManager;
             _userService = userService;
         }
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetAcountByEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            return Ok(user);
+
+        }
 
         [HttpPost("register")]
         [AllowAnonymous]

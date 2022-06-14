@@ -101,6 +101,9 @@
                         </mat-label>
                         <input matInput placeholder="Tag-Name" formControlName="tag_name" />
                     </mat-form-field>  
+                    <button mat-raised-button (click)="addTag()">
+                        Add Tag
+                    </button>
                 </form>
             </div>
             <div class="Recipes-List">
@@ -162,6 +165,9 @@
         <div class="grid-prev-next">
             <button  mat-raised-button routerLink="/recipe-create3">
                 Prev
+            </button>
+            <button  mat-raised-button routerLink="/recipes-search" (click)="createTables()">
+                Finish 
             </button>
         </div>
     </section>

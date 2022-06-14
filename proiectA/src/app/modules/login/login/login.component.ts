@@ -26,6 +26,15 @@ export class LoginComponent implements OnInit {
 
   public login(): void{
     this.dataService.changeUserData(this.loginForm.value);
+    this.LoginService.GetAcountByEmail(this.loginForm.value.email).subscribe(
+      data => {
+        if(data.email != null)
+          {
+            localStorage.setItem('idUser', data.id);
+          }
+      }
+        
+    )
     let login = new Login(this.loginForm.value.email, this.loginForm.value.password);
     console.log(login)
     this.LoginService.LoginUser(login).subscribe(

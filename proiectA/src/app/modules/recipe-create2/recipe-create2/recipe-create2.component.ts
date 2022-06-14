@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router }from '@angular/router';
-import { RecipesSearchService, Utensil } from 'src/app/services/recipes-search.service';
+import { CookedWith, RecipesSearchService, Utensil } from 'src/app/services/recipes-search.service';
 @Component({
   selector: 'app-recipe-create',
   templateUrl: './recipe-create2.component.html',
@@ -128,6 +128,22 @@ export class RecipeCreate2Component implements OnInit {
             this.dataSourceAddedC.data.push(result);
             this.dataSourceAdded.data = this.dataSourceAddedC.data;
           },
+          (error) => {
+            console.error(error);
+          }
+        );
+        
+      }
+  }
+
+  public createTables(): void{
+    for(let i = 0; i<this.utensilList.length; i++)
+      {
+
+        let id = localStorage.getItem('idRecipe') || '1';
+        var cookedWith = new CookedWith(this.utensilList[i], parseInt(id));
+ 
+        this.recipeService.CreateCookedWith(cookedWith).subscribe(
           (error) => {
             console.error(error);
           }

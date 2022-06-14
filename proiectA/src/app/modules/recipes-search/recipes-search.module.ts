@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { RecipesSearchRoutingModule } from './recipes-search-routing.module';
 import { RecipeSearchComponent } from './recipe-search/recipe-search.component';
 import { MatTable } from '@angular/material/table';
@@ -15,6 +15,7 @@ import { MatPaginator } from '@angular/material/paginator';
     CommonModule,
     RecipesSearchRoutingModule,
     MaterialModule,
+    MatCheckboxModule
   ]
 })
 export class RecipesSearchModule { }

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router }from '@angular/router';
-import { RecipesSearchService } from 'src/app/services/recipes-search.service';
+import { Ingredient, MadeWith, RecipesSearchService } from 'src/app/services/recipes-search.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -50,6 +50,22 @@ export class RecipeCreate3Component implements OnInit {
     ingredient_name: new FormControl(''),
     ingredient_price: new FormControl('')
   });
+
+  public addIngredient(): void{
+    let ingredient = new Ingredient(this.createForm.value.ingredient_name, this.createForm.value.ingredient_price);
+    this.recipeService.CreateIngredient(ingredient).subscribe(
+      data => {
+        this.recipeService.GetAllIngredients().subscribe(
+          (result) => {
+            this.dataSource.data = result;
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
+      }
+    )
+  }
 
   public search(): void{
     this.recipeService.GetIngredientByName(this.searchForm.value.ingredient_name).subscribe(
@@ -120,6 +136,22 @@ export class RecipeCreate3Component implements OnInit {
       }
   }
 
+
+  public createTables(): void{
+    for(let i = 0; i<this.ingredientList.length; i++)
+      {
+
+        let id = localStorage.getItem('idRecipe') || '1';
+        var madeWith = new MadeWith(this.ingredientList[i], parseInt(id));
+ 
+        this.recipeService.CreateMadeWith(madeWith).subscribe(
+          (error) => {
+            console.error(error);
+          }
+        );
+        
+      }
+  }
 
   public logout(): void{
     localStorage.setItem('Role', 'Anonim');

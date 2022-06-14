@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router }from '@angular/router';
-import { RecipesSearchService } from 'src/app/services/recipes-search.service';
+import { RecipesSearchService, RecipeTag, Tag } from 'src/app/services/recipes-search.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -49,6 +49,22 @@ export class RecipeCreate4Component implements OnInit {
   public createForm: FormGroup = new FormGroup({
     tag_name: new FormControl(''),
   });
+
+  public addTag(): void{
+    let tag = new Tag(this.createForm.value.tag_name);
+    this.recipeService.CreateTag(tag).subscribe(
+      data => {
+        this.recipeService.GetAllTags().subscribe(
+          (result) => {
+            this.dataSource.data = result;
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
+      }
+    )
+  }
 
   public search(): void{
     this.recipeService.GetTagByName(this.searchForm.value.tag_name).subscribe(
@@ -117,6 +133,23 @@ export class RecipeCreate4Component implements OnInit {
         );
         
       }
+  }
+
+  public createTables(): void{
+    for(let i = 0; i<this.tagList.length; i++)
+      {
+
+        let id = localStorage.getItem('idRecipe') || '1';
+        var recipeTag = new RecipeTag(this.tagList[i], parseInt(id));
+ 
+        this.recipeService.CreateRecipeTag(recipeTag).subscribe(
+          (error) => {
+            console.error(error);
+          }
+        );
+        
+      }
+      localStorage.removeItem('idRecipe');
   }
 
   public logout(): void{

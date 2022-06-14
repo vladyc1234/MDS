@@ -116,30 +116,15 @@
 								<!-- Links -->
 								<h5>Filter Recipes by Tags</h5>
 
-								<ul class="list-unstyled">
+								<ul class="list-unstyled" style="font-size:16px;">
 									<li>
-										<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-										<label for="vehicle1"> I have a bike</label><br>
+                                        <mat-checkbox id="Difficuty" (change)="checkBoxDiff($event)">Difficuty</mat-checkbox>
 									</li>
 									<li>
-										<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-										<label for="vehicle1">website polocy</label><br>
+										<mat-checkbox id="Time" (change)="checkBoxTime($event)">Time</mat-checkbox>
 									</li>
 									<li>
-										<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-										<label for="vehicle1"> Policy for Sellers</label><br>
-									</li>
-									<li>
-										<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-										<label for="vehicle1"> Policy for Buyers</label><br>
-									</li>
-									<li>
-										<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-										<label for="vehicle1"> Shipping & Refund</label><br>
-									</li>
-									<li>
-										<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-										<label for="vehicle1"> Wholesale Policy</label><br>
+										<mat-checkbox id="Cost" (change)="checkBoxCost($event)">Cost</mat-checkbox>
 									</li>
 								</ul>
 
@@ -151,27 +136,19 @@
                       
                           <!-- Position Column -->
                           <ng-container matColumnDef="name">
-                            <mat-header-cell *matHeaderCellDef> name </mat-header-cell>
+                            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
                             <mat-cell *matCellDef="let element">
                                 <button mat-raised-button routerLink="/recipe-template" (click)="save(element.id)">{{element.name}}</button></mat-cell>
                           </ng-container>
-                      
-                          <!-- Name Column -->
-                          <ng-container matColumnDef="recipeFinal">
-                            <mat-header-cell *matHeaderCellDef> recipeFinal </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element.recipeFinal}} </mat-cell>
+
+                          <ng-container matColumnDef="Tags">
+                            <mat-header-cell *matHeaderCellDef> Tags </mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{element.Tags[0]}} - {{element.Tags[1]}} - {{element.Tags[2]}}</mat-cell>
                           </ng-container>
-                      
-                          <!-- Weight Column -->
-                          <ng-container matColumnDef="creationDate">
-                            <mat-header-cell *matHeaderCellDef> creationDate </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element.creationDate}} </mat-cell>
-                          </ng-container>
-                      
-                          <!-- Symbol Column -->
-                          <ng-container matColumnDef="idUser">
-                            <mat-header-cell *matHeaderCellDef> idUser </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element.idUser}} </mat-cell>
+
+                          <ng-container matColumnDef="byUser">
+                            <mat-header-cell *matHeaderCellDef> By User </mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{element.byUser}}</mat-cell>
                           </ng-container>
                       
                           <mat-header-row *matHeaderRowDef="displayedColumns_recipe"></mat-header-row>
@@ -184,7 +161,7 @@
                 
 			</div>
         </div>
-        <button style="margin-left: 1080px; margin-top: 20px;" mat-raised-button routerLink="/recipe-create">
+        <button style="margin-left: 1080px; margin-top: 20px;" mat-raised-button routerLink="/recipe-create" (click)="del()">
             Add new Recipe
         </button>
     </div>
